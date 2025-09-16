@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Haven</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: url("https://wallpapercave.com/wp/wp7024325.jpg") no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      color: #fff;
+      text-align: center;
+    }
+
+    /* Overlay for better text visibility */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-top: 20px;
+      color: #f5d76e;
+      text-shadow: 3px 3px 8px rgba(0,0,0,0.7);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    select, input {
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: #004d4d;
+      color: white;
+      cursor: pointer;
+    }
+
+    input {
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #00e6e6;
+      color: #fff;
+      width: 220px;
+    }
+
+    .product-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 20px;
+      padding: 0 10px;
+    }
+
+    .product-card {
+      border-radius: 15px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.9);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-bottom: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .product-info {
+      padding: 12px;
+    }
+
+    .product-info h3 {
+      margin: 8px 0 5px;
+      font-size: 18px;
+      color: #ffeaa7;
+    }
+
+    .product-info p {
+      margin: 5px 0;
+      font-size: 17px;
+      font-weight: bold;
+      color: #a2f5e2;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: #00b894;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #019875;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📚 Welcome to Book Haven</h1>
+
+  <div class="controls">
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="fiction">Fiction</option>
+      <option value="nonfiction">Non-Fiction</option>
+      <option value="manga">Manga</option>
+      <option value="selfhelp">Self-Help</option>
+    </select>
+
+    <select id="sortFilter">
+      <option value="default">Sort By</option>
+      <option value="lowtohigh">Price: Low → High</option>
+      <option value="hightolow">Price: High → Low</option>
+    </select>
+
+    <input type="text" id="searchBar" placeholder="🔍 Search books...">
+  </div>
+
+  <div class="product-container" id="productContainer"></div>
+
+  <script>
+
+const products = [
+  { name: "Harry Potter and the Sorcerer’s Stone", category: "fiction", price: 499, img: "https://m.media-amazon.com/images/I/81YOuOGFCJL._AC_UF1000,1000_QL80_.jpg" },
+  { name: "Atomic Habits", category: "selfhelp", price: 399, img: "https://m.media-amazon.com/images/I/91bYsX41DVL.jpg" },
+  { name: "Death Note Vol. 1", category: "manga", price: 320, img: "https://upload.wikimedia.org/wikipedia/en/6/6f/Death_Note_Vol_1.jpg" },
+  { name: "Sapiens: A Brief History of Humankind", category: "nonfiction", price: 599, img: "https://m.media-amazon.com/images/I/713jIoMO3UL.jpg" },
+  { name: "The Alchemist", category: "fiction", price: 350, img: "https://m.media-amazon.com/images/I/71aFt4+OTOL.jpg" },
+  { name: "Naruto Manga Vol. 1", category: "manga", price: 270, img: "https://upload.wikimedia.org/wikipedia/en/9/94/NarutoCoverTankobon1.jpg" },
+  { name: "The 7 Habits of Highly Effective People", category: "selfhelp", price: 450, img: "https://m.media-amazon.com/images/I/81A-mvlo+QL.jpg" }
+];
+
+    const container = document.getElementById("productContainer");
+    const filter = document.getElementById("categoryFilter");
+    const sortFilter = document.getElementById("sortFilter");
+    const searchBar = document.getElementById("searchBar");
+
+    function displayProducts(category, sortOrder, searchQuery) {
+      container.innerHTML = "";
+
+      let filtered = category === "all" ? [...products] : products.filter(p => p.category === category);
+
+      if (searchQuery) {
+        filtered = filtered.filter(p => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+      }
+
+      if (sortOrder === "lowtohigh") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortOrder === "hightolow") {
+        filtered.sort((a, b) => b.price - a.price);
+      }
+
+      filtered.forEach(product => {
+        const card = document.createElement("div");
+        card.classList.add("product-card");
+
+        card.innerHTML = `
+          <img src="${product.img}" alt="${product.name}">
+          <div class="product-info">
+            <h3>${product.name}</h3>
+            <p>₹${product.price}</p>
+            <button class="btn">Add to Cart</button>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    filter.addEventListener("change", () => {
+      displayProducts(filter.value, sortFilter.value, searchBar.value);
+    });
+
+    sortFilter.addEventListener("change", () => {
+      displayProducts(filter.value, sortFilter.value, searchBar.value);
+    });
+
+    searchBar.addEventListener("input", () => {
+      displayProducts(filter.value, sortFilter.value, searchBar.value);
+    });
+
+    // Initial load
+    displayProducts("all", "default", "");
+  </script>
+
+</body>
+</html>
