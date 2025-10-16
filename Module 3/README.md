@@ -1,13 +1,20 @@
-# Lokrang — Module 3: Marketplace 🛒
+# Lokrang Module 3
 
-This module is the customer-facing side of the Lokrang platform, allowing users to explore artisan products and make purchases.
+This is Module 3 of the **Lokrang Platform**, an online marketplace helping local artisans sell their products.
 
-## 🧠 Features
-- Product listing with images and prices  
-- Add to cart functionality (frontend-only demo)  
-- Reusable component-based design with Tailwind CSS  
+## Features
+- Product listing and display
+- Tailwind CSS + React setup
+- Environment variables (`.env`)
+- ESLint + Prettier ready
 
-## ⚙️ Run Locally
+## Tech Stack
+- React 19
+- Vite 7
+- Tailwind CSS 4
+- ESLint (latest)
+
+## Setup
 ```bash
 npm install
 npm run dev
