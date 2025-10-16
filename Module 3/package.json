@@ -1,0 +1,24 @@
+{
+  "name": "lokrang-module-3",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Module 3 of Lokrang - Marketplace where customers can browse and purchase artisan products.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.3",
+    "tailwindcss": "^4.1.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.3",
+    "vite": "^7.1.7"
+  },
+  "author": "Lokrang Team",
+  "license": "MIT"
+}
