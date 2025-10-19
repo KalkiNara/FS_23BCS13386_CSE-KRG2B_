@@ -1,0 +1,14 @@
+{
+  "name": "Lokrang",
+  "short_name": "Lokrang",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f97316",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
